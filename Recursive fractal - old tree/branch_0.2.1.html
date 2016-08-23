@@ -1,0 +1,82 @@
+<html>
+
+ <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+<script>
+var canvas;
+var canvasContext;
+var len = 100;
+var width = 10, widthDegrade = 0.78;
+var degrees = 30;
+var currentOrigin;
+var branchCounter =0;
+
+
+window.onload = function() {
+	canvas = document.getElementById('gameCanvas');
+	canvasContext = canvas.getContext('2d');
+
+
+	// next line blanks out the screen with black
+	canvas.style.backgroundColor = '#6495ED';
+	//colorRect(0,0,canvas.width,canvas.height,'black');
+	canvasContext.translate(canvas.width/2 , canvas.height);
+	drawBranch(len, width);
+
+}
+
+
+function drawBranch(brLength, width) {
+	//canvasContext.fillStyle = 'white';
+
+	line(0,0, 0,  -brLength, width);
+  branchCounter++;
+	canvasContext.translate(0 , -brLength);
+
+	if (brLength > 4 ) { //end if the the length is too short;
+		canvasContext.save();
+		canvasContext.rotate(angleRandomizer() * Math.PI/180);
+		drawBranch(brLength * lengthRandomizer(), width * widthDegrade );
+		canvasContext.restore(); 										// go back
+		canvasContext.save(); 											// save again
+		canvasContext.rotate(-angleRandomizer() * Math.PI/180);
+		drawBranch(brLength * lengthRandomizer(), width * widthDegrade);
+		canvasContext.restore();											//go back again
+	}  else {
+		circle(); //leaves
+	}
+}
+
+
+function line(startX,startY,endX,endY, width){
+	canvasContext.beginPath();
+	canvasContext.moveTo(startX,startY);
+	canvasContext.lineTo(endX,endY);
+	canvasContext.lineWidth = width;
+	canvasContext.strokeStyle = '#805500';
+	canvasContext.stroke();
+}
+
+function circle(){
+	canvasContext.beginPath();
+	canvasContext.arc(0, 0, 3, 0, 2 * Math.PI, false);
+	canvasContext.fillStyle = 'rgb( ' + getRandomIntInclusive(51,255) + ', ' + getRandomIntInclusive(102,255) +  ','
+					+ getRandomIntInclusive(0,0) +' )';
+	//canvasContext.fillStyle = 'green';
+	canvasContext.fill();
+	//canvasContext.stroke();
+}
+
+function lengthRandomizer(){
+	return getRandomIntInclusive(68, 84) / 100
+}
+
+function angleRandomizer(){
+	return getRandomIntInclusive(10, 30)
+}
+
+function getRandomIntInclusive(min, max) {
+  return Math.round(Math.random() * (max - min + 1)) + min;
+}
+</script>
+</html>
