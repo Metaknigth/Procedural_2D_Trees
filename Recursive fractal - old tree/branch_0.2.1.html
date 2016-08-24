@@ -59,7 +59,7 @@ function line(startX,startY,endX,endY, width){
 
 function circle(){
 	canvasContext.beginPath();
-	canvasContext.arc(0, 0, 3, 0, 2 * Math.PI, false);
+	canvasContext.arc(0, 0, getRandomIntInclusive(3,5), 0, 2 * Math.PI, false);
 	canvasContext.fillStyle = 'rgb( ' + getRandomIntInclusive(51,255) + ', ' + getRandomIntInclusive(102,255) +  ','
 					+ getRandomIntInclusive(0,0) +' )';
 	//canvasContext.fillStyle = 'green';
