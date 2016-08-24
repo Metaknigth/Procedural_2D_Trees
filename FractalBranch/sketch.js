@@ -162,7 +162,7 @@ function draw() {
   point(0,100*noise(nx));
   stroke('#222222');
   strokeWeight(1);
-  text(100*noise(nx), 100, 100);
+  text(noise(nx), 100, 100);
   for (var x = 0; x < width; x++) {
 
     var y = 100 * noise(nx);
