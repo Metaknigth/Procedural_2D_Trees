@@ -4,6 +4,7 @@ var thickness = 10;
 var thicknessDegrade = 0.78;
 var count = 0;
 //var degrees = 30;
+var noiseValue;
 var root, tree = [],
   leaves = [];
 
@@ -23,6 +24,10 @@ function setup() {
   //generate the rest of the array, then in Draw display it
   addBranches();
   addLeaves();
+
+  //create some noise;
+  //noiseSeed(10);
+  noiseValue = noise(20);
 }
 
 // add branches on mouse button being pressed
@@ -36,7 +41,7 @@ function addBranches() {
   if (count < 50) {
 
     for (var i = tree.length - 1; i >= 0; i--) {
-      if (tree[i].branchLength > 4) {
+      if (tree[i].branchLength > 5) {
 
         if (!tree[i].finished) { //finished is like drawn = true; each element in tree having a start and end pint
           tree.push(tree[i].growBranchLeft());
@@ -70,7 +75,8 @@ function draw() {
   //draw all the branches of the tree array
   for (var i = 0; i < tree.length; i++) {
     tree[i].show();
-    //tree[i].jitter();
+
+    //debugBranches(tree[i]);
   }
 
   //draw the leaves
@@ -82,6 +88,10 @@ function draw() {
     leaveSize = getRandomIntInclusive(4, 10);
     ellipse(leaves[i].x, leaves[i].y, leaveSize, leaveSize);
   }
+
+  //debugging
+  fill('#000000');
+  text(noiseValue, 100,100);
   noLoop(); // looping disabled, so it only draws it once
 }
 
@@ -102,4 +112,17 @@ function angleRandomizer() {
 
 function getRandomIntInclusive(min, max) {
   return Math.round(Math.random() * (max - min + 1)) + min;
+}
+
+//for debugging purposes
+function debugBranches(treeBranch) {
+  //noStroke();
+  fill('#000000');
+
+
+  //branches length
+  text(treeBranch.branchLength.toFixed(2),
+    treeBranch.begin.x + 0.50 * (treeBranch.end.x - treeBranch.begin.x),
+    treeBranch.begin.y + 0.50 * (treeBranch.end.y - treeBranch.begin.y));
+
 }
