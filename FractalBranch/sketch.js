@@ -67,13 +67,14 @@ function initTree() {
   addBranches();
   //generate the leaves at the end branches
   addLeaves();
+  count = 0;
 }
 
 // add branches on mouse button being pressed
 function mousePressed() {
   //addBranches();
   noiseValue += 0.5;
-  initNoise(seed,noiseValue);
+  initNoise(seed, noiseValue);
   initTree();
   redraw();
   println("noiseValue = " + noiseValue);
@@ -84,6 +85,7 @@ function mousePressed() {
   println("tree.lenght = " + tree.length);
   println("leaves.length = " + leaves.length);
   println("tree[100].branchLength = " + tree[100].branchLength);
+  println();
 }
 
 //substituting mousePressed in tutorials
@@ -148,12 +150,13 @@ function draw() {
   text("-1.0", 0, 150);
 
   stroke('#222222');
-  strokeWeight(2);
+  //strokeWeight(2);
   //line(0, 100, width, 100);
   noFill();
   beginShape();
+  var nx = noiseValue;
   for (var x = 0; x < width; x++) {
-    var nx = map(x, 0, width, 0, 5);
+    nx += 0.1;
     var y = 100 * noise(nx);
     vertex(x, y);
   }
