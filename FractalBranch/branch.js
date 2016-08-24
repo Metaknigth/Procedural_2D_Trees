@@ -9,11 +9,6 @@ function Branch(begin, end, thickness) {
   this.finished = false; // so it doesn't get drawn over
   //this.thickness = thickness;
 
-  //random jitter function; should remove, not that usefull
-  this.jitter = function (){
-    this.end.x += random(-1,1);
-    this.end.y += random(-1,1);
-  }
 
   //fucntion for displaying a branch, uses line from p5.js
   this.show = function() {
