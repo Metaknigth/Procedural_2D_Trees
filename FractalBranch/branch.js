@@ -24,7 +24,8 @@ function Branch(begin, end, thickness) {
     dir.mult(lengthRandomizer());                 //shorten branches
     var newEnd = p5.Vector.add(this.end,dir);     //save new endpoint in var
 
-    var right = new Branch(this.end, newEnd, thickness * thicknessDegrade); //create new branch
+    //create new branch, which is less thick by a degree of thicknessDegrade;
+    var right = new Branch(this.end, newEnd, this.thickness * thicknessDegrade);
     return right;
   }
 
@@ -35,7 +36,8 @@ function Branch(begin, end, thickness) {
     dir.mult(lengthRandomizer());                 //shorten branches
     var newEnd = p5.Vector.add(this.end,dir);     //save new endpoint in var
 
-    var left = new Branch(this.end, newEnd, thickness * thicknessDegrade);
+    //create new branch, which is less thick by a degree of thicknessDegrade;
+    var left = new Branch(this.end, newEnd, this.thickness * thicknessDegrade);
     return left;
   }
 }
