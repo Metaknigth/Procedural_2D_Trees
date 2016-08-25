@@ -2,12 +2,10 @@ function Branch(begin, end, thickness) {
   this.begin = begin;
   this.end = end;
   this.thickness = thickness;
-
-  //used to check against to stop the growing and for debugggin;
-  this.branchLength = Math.sqrt( (this.begin.x-this.end.x)*(this.begin.x-this.end.x)
-  + (this.begin.y-this.end.y)*(this.begin.y-this.end.y) );
-
-  this.finished = false; // so it doesn't get drawn over
+  this.branchV = p5.Vector.sub(this.begin,this.end); //p5.js function
+  this.angle = this.branchV.heading(); // p5.js function for angle of vector
+  this.branchLength = this.branchV.mag(); //p5.js function for magnitude of vector
+  this.finished = false; // flags a branch as traversed - that it has spawned branches
 
 
   //fucntion for displaying a branch, uses line from p5.js
