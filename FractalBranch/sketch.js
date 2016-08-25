@@ -6,6 +6,8 @@ var count = 0;
 var seed = 22;
 var noiseValue = 0;
 var noiseStep = 0.05;
+var paramNoiseOffsets = noiseValue;
+var offSetStep = 0.5;
 //var degrees = 30;
 var root, tree = [],
   leaves = [];
@@ -13,6 +15,7 @@ var root, tree = [],
 //variables for debugging
 var noiseResult;
 var logLength, logAngle, logInclusion;
+var gassianMean = 1, gassianSD = 0.9;
 
 //setup function that is called on runtime, part of the p5.js library
 //pretty much the same as window.onLoad = function(){}
@@ -28,7 +31,8 @@ function setup() {
 //init the noise with a seed and starting value;
 function initNoise(seed, noiseValue) {
   noiseSeed(this.seed);
-  noiseResult = noise(this.noiseValue);
+  randomSeed(this.seed);
+  //noiseResult = noise(this.noiseValue);
 
 }
 
@@ -61,6 +65,8 @@ function mousePressed() {
   //the result;
   noiseValue += noiseStep;
 
+  paramNoiseOffsets = noiseValue;
+
   //reinitilise the nosie;
   //this needs to be done before building the Tree as it uses it; (learned this through a glitch);
   initNoise(seed, noiseValue);
@@ -92,7 +98,9 @@ function addBranches() {
           //grow 2 branches, using the current one as a start point
           //e.i. they get added to the end of the current one
           //and then they get added to the array
+          //paramNoiseOffsets += offSetStep;
           tree.push(tree[i].growBranchLeft());
+          //paramNoiseOffsets += offSetStep;
           tree.push(tree[i].growBranchRight());
         }
         //mark the branch in the array we just appended the branches too as finished, to avoid doubles and
@@ -101,6 +109,7 @@ function addBranches() {
 
       }
     }
+    offSetStep += 1;
 
     count++;
     //go in another level/iteration; recursion;
@@ -110,7 +119,7 @@ function addBranches() {
 }
 
 function addLeaves() {
-  for (var i = 0; i < tree.length; i++) { // for each branch in the tree
+  for (var i = tree.length - 1; i >= 0; i--) { // for each branch in the tree
     if (!tree[i].finished) { // if it has not been drawed
       var leaf = tree[i].end.copy(); //get its end point
       leaves.push(leaf);             //add it to the array
@@ -133,11 +142,17 @@ function draw() {
   //draw the leaves
   var leaveSize = 0;
   for (var i = 0; i < leaves.length; i++) {
-    fill('rgb( ' + Math.round(getRandomIntInclusive(51, 255)) + ', ' +
-      Math.round(getRandomIntInclusive(102, 255)) + ',' +
-      Math.round(getRandomIntInclusive(0, 0)) + ' )');
+    paramNoiseOffsets += offSetStep;
+    var r = Math.round(getRandomIntInclusive(51, 255));
+    paramNoiseOffsets += offSetStep;
+    var g = Math.round(getRandomIntInclusive(102, 255));
+    paramNoiseOffsets += offSetStep;
+    var b = Math.round(getRandomIntInclusive(0, 0));
+
+    fill('rgb( ' + r + ', ' + g + ',' + b + ' )');
     noStroke();
-    leaveSize = getRandomIntInclusive(4, 10);
+    paramNoiseOffsets += offSetStep;
+    leaveSize = Math.round(getRandomIntInclusive(4, 15));
     ellipse(leaves[i].x, leaves[i].y, leaveSize, leaveSize);
   }
 
@@ -168,10 +183,14 @@ function draw() {
     var y = 100 * noise(nx);
     vertex(x, y);
     nx += noiseStep;
+
   }
 
   endShape();
-
+  for (var y = 150; y < 250; y++) {
+    var x = 100 * randomGaussian(gassianMean,gassianSD);
+    line(50, y, x, y);
+  }
   //end of output code to help with debugging
 
   noLoop(); // looping disabled, so it only draws it once
@@ -185,12 +204,14 @@ function draw() {
 
 //for randomizing the lenth
 function lengthRandomizer() {
-  logLength = getRandomIntInclusive(68, 84) / 100;
+  paramNoiseOffsets = paramNoiseOffsets + randomGaussian(gassianMean,gassianSD); 
+  logLength = getRandomIntInclusive(104, 144) / 100;
   return logLength;
 }
 //get a random angle,
 function angleRandomizer() {
-  logAngle = getRandomIntInclusive(0, 30);
+  paramNoiseOffsets += randomGaussian(gassianMean,gassianSD);
+  logAngle = getRandomIntInclusive(10, 24);
   return logAngle;
 }
 
@@ -200,9 +221,10 @@ function getRandomIntInclusive(min, max) {
   //random() for p5.js random and Math.random default javascript
   //return Math.round(Math.random() * (max - min + 1)) + min; //old way, using Math.random();
 
-  logInclusion = (noiseResult * (max - min + 1)) + min;   //restrains it within a range;
+  logInclusion = (noise(noiseValue + paramNoiseOffsets) * (max - min + 1)) + min;   //restrains it within a range;
   return logInclusion;
 }
+
 
 
 //for debugging purposes
