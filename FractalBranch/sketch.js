@@ -21,7 +21,7 @@ var gassianMean = 1, gassianSD = 0.9;
 //pretty much the same as window.onLoad = function(){}
 function setup() {
   createCanvas(800, 600); //manageable size on my laptop
-
+  //angleMode(DEGREES);
   //sets up the noise, with a preset seed, and starting value;
   initNoise(seed, noiseValue);
   initTree();
@@ -82,7 +82,8 @@ function mousePressed() {
   println("tree.lenght = " + tree.length);
   println("leaves.length = " + leaves.length);
   println("tree[100].branchLength = " + tree[100].branchLength);
-  println();
+  println("paramNoiseOffsets = " + paramNoiseOffsets);
+  println(""); //newline
 }
 
 //substituting mousePressed in tutorials
@@ -141,17 +142,18 @@ function draw() {
 
   //draw the leaves
   var leaveSize = 0;
+  paramNoiseOffsets += offSetStep;
   for (var i = 0; i < leaves.length; i++) {
     paramNoiseOffsets += offSetStep;
     var r = Math.round(getRandomIntInclusive(51, 255));
-    paramNoiseOffsets += offSetStep;
+    //paramNoiseOffsets += offSetStep;
     var g = Math.round(getRandomIntInclusive(102, 255));
     paramNoiseOffsets += offSetStep;
     var b = Math.round(getRandomIntInclusive(0, 0));
 
     fill('rgb( ' + r + ', ' + g + ',' + b + ' )');
     noStroke();
-    paramNoiseOffsets += offSetStep;
+    //paramNoiseOffsets += offSetStep;
     leaveSize = Math.round(getRandomIntInclusive(4, 15));
     ellipse(leaves[i].x, leaves[i].y, leaveSize, leaveSize);
   }
@@ -203,15 +205,15 @@ function draw() {
 
 
 //for randomizing the lenth
-function lengthRandomizer() {
-  paramNoiseOffsets = paramNoiseOffsets + randomGaussian(gassianMean,gassianSD); 
-  logLength = getRandomIntInclusive(104, 144) / 100;
+function lengthRandomizer(min, max) {
+  paramNoiseOffsets = paramNoiseOffsets + randomGaussian(gassianMean,gassianSD);
+  logLength = getRandomIntInclusive(min, max) / 100;
   return logLength;
 }
 //get a random angle,
 function angleRandomizer() {
   paramNoiseOffsets += randomGaussian(gassianMean,gassianSD);
-  logAngle = getRandomIntInclusive(10, 24);
+  logAngle = getRandomIntInclusive(10, 22);
   return logAngle;
 }
 
