@@ -19,7 +19,7 @@ function Branch(begin, end, thickness) {
   this.growBranchRight = function() {
     var dir = p5.Vector.sub(this.end,this.begin); //append it to the existing branch
     dir.rotate(angleRandomizer() * Math.PI/180);  //randomize angle
-    dir.mult(0.61803 * lengthRandomizer());                 //shorten branches
+    dir.mult(0.61803 * lengthRandomizer(104,148));                 //shorten branches
     var newEnd = p5.Vector.add(this.end,dir);     //save new endpoint in var
 
     //create new branch, which is less thick by a degree of thicknessDegrade;
@@ -31,7 +31,7 @@ function Branch(begin, end, thickness) {
   this.growBranchLeft = function() {
     var dir = p5.Vector.sub(this.end,this.begin); //append it to the existing branch
     dir.rotate(-angleRandomizer() * Math.PI/180); //randomize angle, the in other direction
-    dir.mult(0.61803 * lengthRandomizer());                 //shorten branches
+    dir.mult(0.61803 * lengthRandomizer(104,148));                 //shorten branches
     var newEnd = p5.Vector.add(this.end,dir);     //save new endpoint in var
 
     //create new branch, which is less thick by a degree of thicknessDegrade;
