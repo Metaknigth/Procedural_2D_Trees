@@ -23,7 +23,7 @@ function Branch(begin, end, thickness) {
     var newEnd = p5.Vector.add(this.end,dir);                       //save new endpoint in var
 
     //create new branch, which is less thick by a degree of thicknessDegrade;
-    var right = new Branch(this.end, newEnd, this.thickness * thicknessDegrade);
+    var right = new Branch(this.end, newEnd, this.thickness * (thicknessDegrade * lengthRandomizer(84,100)) );
     return right;
   }
 
@@ -35,7 +35,7 @@ function Branch(begin, end, thickness) {
     var newEnd = p5.Vector.add(this.end,dir);                       //save new endpoint in var
 
     //create new branch, which is less thick by a degree of thicknessDegrade;
-    var left = new Branch(this.end, newEnd, this.thickness * thicknessDegrade);
+    var left = new Branch(this.end, newEnd, this.thickness * (thicknessDegrade * lengthRandomizer(84,100)));
     return left;
   }
 }
